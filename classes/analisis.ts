@@ -299,7 +299,7 @@ export function CalHoras(valor: any) {
                                                     // EMPLEADOS
 //  =============================================================================================================================================
 
-cargarGlobalEmpleados();
+// cargarGlobalEmpleados();
 export function empleados( tipo?: string ) {
     return new Promise(( resolve:any )=>{
         var Data = GlobalEmpleadosDB.find( (e:any)=>{

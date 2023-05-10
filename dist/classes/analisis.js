@@ -306,7 +306,7 @@ exports.CalHoras = CalHoras;
 //  =============================================================================================================================================
 // EMPLEADOS
 //  =============================================================================================================================================
-cargarGlobalEmpleados();
+// cargarGlobalEmpleados();
 function empleados(tipo) {
     return new Promise((resolve) => {
         var Data = GlobalEmpleadosDB.find((e) => {

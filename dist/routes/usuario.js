@@ -22,6 +22,7 @@ var TickePreCarga = [];
 var EmpleadosCargados = [];
 // ####################################################################
 function cargaUsuarios() {
+    console.log("Usuarios Cargados");
     const queryString = 'SELECT * FROM usuario';
     environment_1.connection.query(queryString, (err, rows, fields) => {
         if (err) {
@@ -53,11 +54,11 @@ usuario.get('/usuario', (req, res) => {
 //Agregar Usuario
 usuario.post('/crearusuario', (req, res) => {
     console.log("Tratando de crear un usuario nuevo..");
-    const { user, perfil, passd, depto } = req.body;
+    const { user, passd, roles } = req.body;
     const salt = bcript.genSaltSync();
     const passEncryp = bcript.hashSync(passd, salt);
-    const queryString = "INSERT INTO usuario(usuario, perfil, passwd, depto) VALUES(?, ?, ?, ?)";
-    environment_1.connection.query(queryString, [user, perfil, passEncryp, depto], (err, results, fields) => {
+    const queryString = "INSERT INTO usuario(usuario, password, roles) VALUES(?, ?, ?)";
+    environment_1.connection.query(queryString, [user, passEncryp, roles], (err, results, fields) => {
         if (err) {
             console.log("Error al agregar nuevo Usuario: " + err);
             res.sendStatus(500);
@@ -78,9 +79,10 @@ usuario.post('/login', (req, res) => {
     cargaUsuarios();
     const { user, pass } = req.body;
     var result = UsuariosDB.find((e) => e.usuario === user);
+    // console.log(result);
     if (result) {
         setTimeout(() => {
-            const pasBcryt = bcript.compareSync(pass, result.passwd);
+            const pasBcryt = bcript.compareSync(pass, result.password);
             if (pasBcryt) {
                 res.status(200).json({
                     ok: true,

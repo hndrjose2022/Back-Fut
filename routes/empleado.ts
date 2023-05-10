@@ -44,8 +44,6 @@ function precargarEmpleados() {
     });
 }
 
-
-precargarEmpleados();
 // ==============================================================================================================================================
 empleado.post('/addEmpleado', (req:Request, res:Response)=>{
     const valor = req.body;

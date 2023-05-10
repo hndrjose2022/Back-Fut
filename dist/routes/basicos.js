@@ -47,9 +47,9 @@ function precargarGenero() {
         }
     });
 }
-precargarDeptos();
-precargarPuestos();
-precargarGenero();
+// precargarDeptos();
+// precargarPuestos();
+// precargarGenero();
 basico.get('/departamento', (req, res) => {
     res.status(200).json({
         ok: true,
