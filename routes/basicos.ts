@@ -5,7 +5,7 @@ const basico = Router();
 
 var DeptosCargados:any = [];
 var puestosCargados:any = [];
-var generoCargados:any = [];
+var equipoCargados:any = [];
 
 function precargarDeptos() {
     const queryString = `SELECT * FROM empleado.departamento`
@@ -33,22 +33,21 @@ function precargarPuestos() {
         }
     });
 }
-function precargarGenero() {
-    const queryString = `SELECT * FROM empleado.empleado_genro`
+function precargaEquipo() {
+    const queryString = `SELECT * FROM equipos`
     connection.query(queryString, (err:any, rows:any, fields:any) => {
         if( err ){
-            console.log("Se a Sucitado un Error en la Carga de los Generos");
+            console.log("Se a Sucitado un Error en la Carga de EQuipos");
         }else {
             if(rows.length> 0){
-                generoCargados = rows
+                equipoCargados = rows
             }
         }
     });
 }
-
 // precargarDeptos();
 // precargarPuestos();
-// precargarGenero();
+precargaEquipo();
 
 basico.get('/departamento', (req:Request, res:Response)=>{
         res.status(200).json({
@@ -64,11 +63,14 @@ basico.get('/puestos', (req:Request, res:Response)=>{
         });
 });
 
-basico.get('/genero', (req:Request, res:Response)=>{
+basico.get('/equipo', (req:Request, res:Response)=>{
+    precargaEquipo();
+    setTimeout(()=>{
         res.status(200).json({
             ok: true,
-            registros: generoCargados
+            registros: equipoCargados
         });
+    },500);
 });
 
 export default basico;

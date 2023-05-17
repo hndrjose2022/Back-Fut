@@ -27,7 +27,7 @@ function cargaUsuarios() {
     const queryString = 'SELECT * FROM usuario'
     connection.query(queryString, (err:any, rows:any, fields:any) => {
         if( err ){
-            console.log("Se a Sucitado un Error en la Carga de todos los Empleados");
+            console.log("Se a Sucitado un Error en la Carga de todos los Usuarios");
         }else {
             if( rows.length>0 ){
                 UsuariosDB = rows;

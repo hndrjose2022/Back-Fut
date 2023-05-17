@@ -14,46 +14,47 @@ var fechalocal = dia + '/' + mes + '/' + ano;
 var fechainter = ano + '-' + mes + '-' + dia;
 // >>>>>>>>>>>>>>>>>>
 //>>>>>>>>>>>>>>>>>>>
-var Empleados = [];
+var jugadores = [];
 var PageArray = 0;
 var Inicio = 0;
 var Fin = 0;
 var Pages = 1;
 var TickePreCarga = [];
 var EmpleadosCargados = [];
-function precargarEmpleados() {
-    const queryString = `SELECT *, departamento.nombre_depto, puesto.nombre_puesto , empleado_genro.nombre_genero, direc_indirc.nombre_direc
-                         FROM empleado.empleados 
-                         INNER JOIN empleado.departamento ON empleados.depto = departamento.Id_depto
-                         INNER JOIN empleado.puesto ON empleados.puesto = puesto.Id_puesto
-                         INNER JOIN empleado.empleado_genro ON  empleados.genero = empleado_genro.Id_genero
-                         INNER JOIN empleado.direc_indirc ON  empleados.dic_indc = direc_indirc.Id_direc`;
+function precargarjugadores() {
+    console.log("Cargando Jugadores");
+    const queryString = `SELECT jugador.Id_jugador, jugador.Nombre, jugador.Apellido, jugador.cedula, 
+                          date_format(jugador.f_nacimiento, "%Y-%m-%d") as f_nacimiento , jugador.equipo, jugador.cod_carnet,
+                          date_format(jugador.f_altas, "%Y-%m-%d") as f_altas,  date_format(jugador.f_baja, "%Y-%m-%d") as f_baja, 
+                          jugador.contacto, equipos.Id_equipo, equipos.nombre as nomEquipo FROM jugadorDB.jugador 
+                          INNER JOIN jugadorDB.equipos  ON jugador.equipo = equipos.Id_equipo`;
     environment_1.connection.query(queryString, (err, rows, fields) => {
         if (err) {
-            console.log("Se a Sucitado un Error en la Carga de todos los Empleados");
+            console.log("Se a Sucitado un Error en la Carga de todos los Jugadores");
         }
         else {
             if (rows.length > 0) {
-                Empleados = rows;
-                console.log("Datos Cargados Empleados");
+                jugadores = rows;
+                console.log("Datos Cargados Jugadores");
             }
         }
     });
 }
 // ==============================================================================================================================================
-empleado.post('/addEmpleado', (req, res) => {
+empleado.post('/addjugador', (req, res) => {
     const valor = req.body;
-    archivo.InsertarEmpleado(valor).then((msg) => {
-        precargarEmpleados();
+    archivo.InsertarJugadores(valor).then((msg) => {
         res.status(200).json({
             ok: true
         });
+        precargarjugadores();
     });
 });
-empleado.post('/buscarEmpleado', (req, res) => {
+empleado.post('/buscarjugador', (req, res) => {
+    precargarjugadores();
     let result = [];
     const valor = String(req.body.valor);
-    Empleados.forEach((e) => {
+    jugadores.forEach((e) => {
         if (e.nombre.includes(valor.toUpperCase())) {
             result.push(e);
         }
@@ -66,7 +67,7 @@ empleado.post('/buscarEmpleado', (req, res) => {
             });
         }
         else {
-            Empleados.forEach((e) => {
+            jugadores.forEach((e) => {
                 if (e.apellido.includes(valor.toUpperCase())) {
                     result.push(e);
                 }
@@ -80,11 +81,13 @@ empleado.post('/buscarEmpleado', (req, res) => {
         }
     }, 2000);
 });
-empleado.get('/empleados/:Fin', (req, res) => {
+empleado.get('/jugadores/:Fin', (req, res) => {
+    precargarjugadores();
+    console.log("Enviando Data");
     Fin = Number(req.params.Fin);
-    if (Empleados.length > 0) {
-        PageArray = Math.ceil(Number(Empleados.length / Fin));
-        EmpleadosCargados = Empleados.slice(0, Fin);
+    if (jugadores.length > 0) {
+        PageArray = Math.ceil(Number(jugadores.length / Fin));
+        EmpleadosCargados = jugadores.slice(0, Fin);
         res.status(200).json({
             ok: true,
             TotPages: PageArray,
@@ -98,7 +101,7 @@ empleado.get('/empleados/:Fin', (req, res) => {
 empleado.get('/refecencia/:ref', (req, res, next) => {
     console.log(req.params);
     const ref = req.params.ref;
-    if (Empleados.length > 0) {
+    if (jugadores.length > 0) {
         if (ref === 'mas') {
             if (PageArray != 1) {
                 Inicio += 40;
@@ -123,7 +126,7 @@ empleado.get('/refecencia/:ref', (req, res, next) => {
             }
         }
         var Data = [];
-        Data = Empleados.slice(Inicio, Fin);
+        Data = jugadores.slice(Inicio, Fin);
         res.status(200).json({
             ok: true,
             TotPages: PageArray,
@@ -132,13 +135,13 @@ empleado.get('/refecencia/:ref', (req, res, next) => {
         });
     }
 });
-empleado.get('/unempleado/:id', (req, res) => {
-    precargarEmpleados();
+empleado.get('/unjugador/:id', (req, res) => {
+    precargarjugadores();
     const id = req.params.id;
     var Data = [];
     //console.log(Empleados[0]);
-    Data = Empleados.find((e) => {
-        return e.Id_Empleado == id;
+    Data = jugadores.find((e) => {
+        return e.Id_jugador == id;
     });
     // console.log(Data);
     if (Data) {
@@ -161,11 +164,10 @@ empleado.get('/getUltmId', (req, res) => {
         });
     });
 });
-empleado.put('/putEmpleado', (req, res) => {
+empleado.put('/putjugador', (req, res) => {
     const data = req.body;
-    archivo.ModificarEmpleado(data).then((msg) => {
+    archivo.ModificarJugador(data).then((msg) => {
         if (msg.ok) {
-            precargarEmpleados();
             res.status(200).json({
                 ok: true
             });

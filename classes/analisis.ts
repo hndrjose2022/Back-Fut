@@ -26,7 +26,7 @@ function cargarGlobalEmpleados(){
     const queryString = `SELECT * FROM empleados`
     connection.query(queryString, (err:any, rows:any, fields:any) => {
         if( err ){
-            console.log("Se a Sucitado un Error en la Carga de todos los Empleados Global");
+            console.log("Error en la Carga de todos los Empleados Global");
         }else {
             if( rows.length>0 ){
                 GlobalEmpleadosDB = rows;
@@ -316,7 +316,7 @@ export function getUltimoId(){
         const sqlquery = `SELECT MAX(Id_Empleado) as ultimo FROM empleados`;
         connection.query(sqlquery, (err:any, rows:any, fields:any) => {
             if( err ){
-                console.log("Se a Sucitado un Error en la Carga de todos los Empleados Global");
+                console.log("Se a Sucitado un Error en la Carga de todos");
             }else {
                 if( rows.length>0 ){
                     resolve({registro: rows[0].ultimo});
