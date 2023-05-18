@@ -5,21 +5,7 @@ const environment_1 = require("../global/environment");
 const basico = (0, express_1.Router)();
 var DeptosCargados = [];
 var puestosCargados = [];
-var generoCargados = [];
-function precargarDeptos() {
-    const queryString = `SELECT * FROM empleado.departamento`;
-    environment_1.connection.query(queryString, (err, rows, fields) => {
-        if (err) {
-            console.log("Se a Sucitado un Error en la Carga de los Departamentos");
-        }
-        else {
-            if (rows.length > 0) {
-                DeptosCargados = rows;
-            }
-            console.log("Datos Cargados");
-        }
-    });
-}
+var equipoCargados = [];
 function precargarPuestos() {
     const queryString = `SELECT * FROM empleado.puesto`;
     environment_1.connection.query(queryString, (err, rows, fields) => {
@@ -34,22 +20,22 @@ function precargarPuestos() {
         }
     });
 }
-function precargarGenero() {
-    const queryString = `SELECT * FROM empleado.empleado_genro`;
+function precargaEquipo() {
+    const queryString = `SELECT * FROM equipos`;
     environment_1.connection.query(queryString, (err, rows, fields) => {
         if (err) {
-            console.log("Se a Sucitado un Error en la Carga de los Generos");
+            console.log("Se a Sucitado un Error en la Carga de EQuipos");
         }
         else {
             if (rows.length > 0) {
-                generoCargados = rows;
+                equipoCargados = rows;
             }
         }
     });
 }
 // precargarDeptos();
 // precargarPuestos();
-// precargarGenero();
+precargaEquipo();
 basico.get('/departamento', (req, res) => {
     res.status(200).json({
         ok: true,
@@ -62,10 +48,13 @@ basico.get('/puestos', (req, res) => {
         registros: puestosCargados
     });
 });
-basico.get('/genero', (req, res) => {
-    res.status(200).json({
-        ok: true,
-        registros: generoCargados
-    });
+basico.get('/equipo', (req, res) => {
+    precargaEquipo();
+    setTimeout(() => {
+        res.status(200).json({
+            ok: true,
+            registros: equipoCargados
+        });
+    }, 500);
 });
 exports.default = basico;

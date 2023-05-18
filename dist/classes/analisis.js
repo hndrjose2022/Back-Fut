@@ -29,7 +29,7 @@ function cargarGlobalEmpleados() {
     const queryString = `SELECT * FROM empleados`;
     environment_1.connection.query(queryString, (err, rows, fields) => {
         if (err) {
-            console.log("Se a Sucitado un Error en la Carga de todos los Empleados Global");
+            console.log("Error en la Carga de todos los Empleados Global");
         }
         else {
             if (rows.length > 0) {
@@ -323,7 +323,7 @@ function getUltimoId() {
         const sqlquery = `SELECT MAX(Id_Empleado) as ultimo FROM empleados`;
         environment_1.connection.query(sqlquery, (err, rows, fields) => {
             if (err) {
-                console.log("Se a Sucitado un Error en la Carga de todos los Empleados Global");
+                console.log("Se a Sucitado un Error en la Carga de todos");
             }
             else {
                 if (rows.length > 0) {
