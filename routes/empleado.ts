@@ -60,9 +60,10 @@ empleado.post('/buscarjugador', (req:Request, res:Response)=>{
     precargarjugadores();
     let result:any = [];
     const valor = String(req.body.valor);
+    console.log(valor);
 
     jugadores.forEach( (e:any) => {
-        if( e.nombre.includes( valor.toUpperCase() ) ){
+        if( e.Nombre.includes( valor.toUpperCase() ) ){
             result.push( e );
         }
     });
@@ -74,7 +75,7 @@ empleado.post('/buscarjugador', (req:Request, res:Response)=>{
             });
         }else {
             jugadores.forEach( (e:any) => {
-                if( e.apellido.includes( valor.toUpperCase() ) ){
+                if( e.Apellido.includes( valor.toUpperCase() ) ){
                     result.push( e );
                 }
             });
