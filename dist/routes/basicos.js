@@ -6,20 +6,6 @@ const basico = (0, express_1.Router)();
 var DeptosCargados = [];
 var puestosCargados = [];
 var equipoCargados = [];
-function precargarDeptos() {
-    const queryString = `SELECT * FROM empleado.departamento`;
-    environment_1.connection.query(queryString, (err, rows, fields) => {
-        if (err) {
-            console.log("Se a Sucitado un Error en la Carga de los Departamentos");
-        }
-        else {
-            if (rows.length > 0) {
-                DeptosCargados = rows;
-            }
-            console.log("Datos Cargados");
-        }
-    });
-}
 function precargarPuestos() {
     const queryString = `SELECT * FROM empleado.puesto`;
     environment_1.connection.query(queryString, (err, rows, fields) => {

@@ -7,19 +7,7 @@ var DeptosCargados:any = [];
 var puestosCargados:any = [];
 var equipoCargados:any = [];
 
-function precargarDeptos() {
-    const queryString = `SELECT * FROM empleado.departamento`
-    connection.query(queryString, (err:any, rows:any, fields:any) => {
-        if( err ){
-            console.log("Se a Sucitado un Error en la Carga de los Departamentos");
-        }else {
-            if(rows.length> 0){
-                DeptosCargados = rows
-            }
-            console.log("Datos Cargados");
-        }
-    });
-}
+
 function precargarPuestos() {
     const queryString = `SELECT * FROM empleado.puesto`
     connection.query(queryString, (err:any, rows:any, fields:any) => {

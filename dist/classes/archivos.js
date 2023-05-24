@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EliminarJugador = exports.ModificarJugador = exports.InsertarJugadores = exports.ModificarEmpleado = exports.InsertarJugador = exports.InsertarHooras = exports.InsertarPlanilla = exports.InsertarinfoAdjuntos = void 0;
+exports.EliminarJugador = exports.ModificarJugador = exports.InsertarJugadores = exports.InsertarHooras = exports.InsertarPlanilla = exports.InsertarinfoAdjuntos = void 0;
 const fs = require('fs');
 var fecha = new Date();
 var fechArchivodia = '';
@@ -125,46 +125,6 @@ function InsertarHooras(valor, user) {
     });
 }
 exports.InsertarHooras = InsertarHooras;
-// =====================================================================================================================================================
-// ===========================================================  EMPLEADOS ==============================================================================
-// =====================================================================================================================================================
-function InsertarJugador(valor) {
-    return new Promise((resolve, reject) => {
-        var i = 0;
-        console.log(valor);
-        const queryString5 = `INSERT INTO jugador(Nombre, Apellido, cedula, f_nacimiento, equipo, cod_carnet, f_altas, f_baja) 
-            VALUES(${valor.Id_Empleado}, '${valor.nombre.toUpperCase()}', '${valor.apellido.toUpperCase()}', '${valor.cedula}', '${valor.fecha_nac}', ${valor.equipo}, '${valor.carnet}', 
-                    '${valor.f_alta}', '${valor.f_baja}')`;
-        environment_1.connection.query(queryString5, (err, results, fields) => {
-            if (err) {
-                console.log("Error al agregar nuevo rgistro: " + err);
-            }
-            console.log("incertado");
-            resolve({ ok: true });
-        });
-    });
-}
-exports.InsertarJugador = InsertarJugador;
-function ModificarEmpleado(valor) {
-    return new Promise((resolve, reject) => {
-        console.log(valor);
-        const { Id_jugador, nombre, apellido, cedula, fecha_nac, equipo, carnet, f_alta, f_baja } = valor;
-        const queryString5 = `UPDATE jugador SET nombre= '${nombre.toUpperCase()}', apellido= '${apellido.toUpperCase()}', cedula= '${cedula}' , f_nacimiento= '${fecha_nac}', equipo= ${equipo}, 
-                                                    cod_carnet= '${carnet}', f_altas= '${f_alta}' , f_baja = ${f_baja}
-                                                    WHERE Id_jugador = ${Id_jugador}`;
-        //console.log(queryString5);
-        environment_1.connection.query(queryString5, (err, results, fields) => {
-            if (err) {
-                console.log("Error al Modificar rgistro: " + err);
-            }
-            console.log("Modificado");
-            setTimeout(() => {
-                resolve({ ok: true });
-            }, 500);
-        });
-    });
-}
-exports.ModificarEmpleado = ModificarEmpleado;
 //  ==================================================================================================================================================
 //  ==================================================================================================================================================
 // =====================================================================================================================================================
@@ -174,9 +134,8 @@ function InsertarJugadores(valor) {
     return new Promise((resolve, reject) => {
         var i = 0;
         const queryString5 = `INSERT INTO jugador(Nombre, Apellido, cedula, f_nacimiento, equipo, cod_carnet, f_altas, f_baja) 
-                VALUES('${valor.nombre.toUpperCase()}', '${valor.apellido.toUpperCase()}', ${valor.cedula}, '${valor.fecha_nac}', ${valor.equipo},  
+                VALUES('${valor.nombre.toUpperCase()}', '${valor.apellido.toUpperCase()}', '${valor.cedula}', '${valor.fecha_nac}', ${valor.equipo},  
                       '${valor.carnet}', '${valor.f_alta}', '${valor.f_baja}')`;
-        console.log(queryString5);
         environment_1.connection.query(queryString5, (err, results, fields) => {
             if (err) {
                 console.log("Error al agregar nuevo rgistro: " + err);
@@ -190,7 +149,7 @@ exports.InsertarJugadores = InsertarJugadores;
 function ModificarJugador(valor) {
     return new Promise((resolve, reject) => {
         const { Id_jugador, nombre, apellido, cedula, f_nacimiento, equipo, carnet, f_alta, f_baja } = valor;
-        const queryString5 = `UPDATE jugador SET Nombre= '${nombre.toUpperCase()}', Apellido= '${apellido.toUpperCase()}', cedula= ${cedula}, f_nacimiento= '${f_nacimiento}', equipo= ${equipo}, cod_carnet= '${carnet}', 
+        const queryString5 = `UPDATE jugador SET Nombre= '${nombre.toUpperCase()}', Apellido= '${apellido.toUpperCase()}', cedula= '${cedula}', f_nacimiento= '${f_nacimiento}', equipo= ${equipo}, cod_carnet= '${carnet}', 
                                                     f_altas= '${f_alta}', f_baja= '${f_baja}' WHERE Id_jugador = ${Id_jugador}`;
         environment_1.connection.query(queryString5, (err, results, fields) => {
             if (err) {
