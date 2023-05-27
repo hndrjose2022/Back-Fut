@@ -86,7 +86,7 @@ empleado.post('/buscarjugador', (req:Request, res:Response)=>{
                 });
             },2000);
         }
-    },2000);
+    },1000);
 });
 
 empleado.get('/jugadores/:Fin', (req:Request, res:Response)=>{

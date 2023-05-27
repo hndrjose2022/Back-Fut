@@ -133,10 +133,23 @@ export function InsertarHooras(valor: any, user?: number){
 }
 
 
+// =====================================================================================================================================================
+// ===========================================================  EQUIPOS ==============================================================================
+// =====================================================================================================================================================
+export function InsertarEquipos(valor: any){
+  return new Promise((resolve, reject) => {
 
-//  ==================================================================================================================================================
-//  ==================================================================================================================================================
-
+        const queryString5 = `INSERT INTO jugador(Id_equipo, nombre) 
+                VALUES('${valor.nombre.toUpperCase()}')`;
+            connection.query(queryString5,  (err: any, results: any, fields:any) => {
+                if (err) {
+                     console.log("Error al agregar nuevo rgistro: " + err);
+                } 
+                console.log("incertado");
+                resolve( {ok: true} );
+            });
+  });
+}
 
 
 // =====================================================================================================================================================
@@ -163,7 +176,7 @@ export function ModificarJugador(valor: any){
   return new Promise((resolve, reject) => {
       const { Id_jugador, nombre, apellido, cedula, f_nacimiento, equipo, carnet, f_alta, f_baja } = valor;
 
-      const queryString5 = `UPDATE jugador SET Nombre= '${nombre.toUpperCase()}', Apellido= '${apellido.toUpperCase()}', cedula= '${cedula}', f_nacimiento= '${f_nacimiento}', equipo= ${equipo}, cod_carnet= '${carnet}', 
+      const queryString5 = `UPDATE jugador SET Nombre= '${nombre.toUpperCase()}', Apellido= '${apellido.toUpperCase()}', cedula= ${cedula}, f_nacimiento= '${f_nacimiento}', equipo= ${equipo}, cod_carnet= '${carnet}', 
                                                     f_altas= '${f_alta}', f_baja= '${f_baja}' WHERE Id_jugador = ${Id_jugador}`;
       connection.query(queryString5,  (err: any, results: any, fields:any) => {
           if (err) {

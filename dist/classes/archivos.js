@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EliminarJugador = exports.ModificarJugador = exports.InsertarJugadores = exports.InsertarHooras = exports.InsertarPlanilla = exports.InsertarinfoAdjuntos = void 0;
+exports.EliminarJugador = exports.ModificarJugador = exports.InsertarJugadores = exports.InsertarEquipos = exports.InsertarHooras = exports.InsertarPlanilla = exports.InsertarinfoAdjuntos = void 0;
 const fs = require('fs');
 var fecha = new Date();
 var fechArchivodia = '';
@@ -125,8 +125,23 @@ function InsertarHooras(valor, user) {
     });
 }
 exports.InsertarHooras = InsertarHooras;
-//  ==================================================================================================================================================
-//  ==================================================================================================================================================
+// =====================================================================================================================================================
+// ===========================================================  EQUIPOS ==============================================================================
+// =====================================================================================================================================================
+function InsertarEquipos(valor) {
+    return new Promise((resolve, reject) => {
+        const queryString5 = `INSERT INTO jugador(Id_equipo, nombre) 
+                VALUES('${valor.nombre.toUpperCase()}')`;
+        environment_1.connection.query(queryString5, (err, results, fields) => {
+            if (err) {
+                console.log("Error al agregar nuevo rgistro: " + err);
+            }
+            console.log("incertado");
+            resolve({ ok: true });
+        });
+    });
+}
+exports.InsertarEquipos = InsertarEquipos;
 // =====================================================================================================================================================
 // ===========================================================  JUGADORES ==============================================================================
 // =====================================================================================================================================================
@@ -149,7 +164,7 @@ exports.InsertarJugadores = InsertarJugadores;
 function ModificarJugador(valor) {
     return new Promise((resolve, reject) => {
         const { Id_jugador, nombre, apellido, cedula, f_nacimiento, equipo, carnet, f_alta, f_baja } = valor;
-        const queryString5 = `UPDATE jugador SET Nombre= '${nombre.toUpperCase()}', Apellido= '${apellido.toUpperCase()}', cedula= '${cedula}', f_nacimiento= '${f_nacimiento}', equipo= ${equipo}, cod_carnet= '${carnet}', 
+        const queryString5 = `UPDATE jugador SET Nombre= '${nombre.toUpperCase()}', Apellido= '${apellido.toUpperCase()}', cedula= ${cedula}, f_nacimiento= '${f_nacimiento}', equipo= ${equipo}, cod_carnet= '${carnet}', 
                                                     f_altas= '${f_alta}', f_baja= '${f_baja}' WHERE Id_jugador = ${Id_jugador}`;
         environment_1.connection.query(queryString5, (err, results, fields) => {
             if (err) {

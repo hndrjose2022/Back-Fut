@@ -80,7 +80,7 @@ empleado.post('/buscarjugador', (req, res) => {
                 });
             }, 2000);
         }
-    }, 2000);
+    }, 1000);
 });
 empleado.get('/jugadores/:Fin', (req, res) => {
     precargarjugadores();
