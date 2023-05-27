@@ -4,61 +4,31 @@ import { connection } from '../global/environment';
 const basico = Router();
 
 var DeptosCargados:any = [];
-var puestosCargados:any = [];
+var equiposcargados:any = [];
 var equipoCargados:any = [];
 
 
-function precargarPuestos() {
-    const queryString = `SELECT * FROM empleado.puesto`
+function precargaEquipo() {
+    const queryString = `SELECT * FROM jugadorDB.equipos`
     connection.query(queryString, (err:any, rows:any, fields:any) => {
         if( err ){
             console.log("Se a Sucitado un Error en la Carga de los Departamentos");
         }else {
             if(rows.length> 0){
-                puestosCargados = rows
+                equiposcargados = rows
             }
             console.log("Datos Cargados");
         }
     });
 }
-function precargaEquipo() {
-    const queryString = `SELECT * FROM equipos`
-    connection.query(queryString, (err:any, rows:any, fields:any) => {
-        if( err ){
-            console.log("Se a Sucitado un Error en la Carga de EQuipos");
-        }else {
-            if(rows.length> 0){
-                equipoCargados = rows
-            }
-        }
-    });
-}
-// precargarDeptos();
-// precargarPuestos();
-precargaEquipo();
+precargaEquipo()
 
-basico.get('/departamento', (req:Request, res:Response)=>{
+basico.get('/equipos', (req:Request, res:Response)=>{
         res.status(200).json({
             ok: true,
-            registros: DeptosCargados
+            registros: equiposcargados
         });
 });
 
-basico.get('/puestos', (req:Request, res:Response)=>{
-        res.status(200).json({
-            ok: true,
-            registros: puestosCargados
-        });
-});
-
-basico.get('/equipo', (req:Request, res:Response)=>{
-    precargaEquipo();
-    setTimeout(()=>{
-        res.status(200).json({
-            ok: true,
-            registros: equipoCargados
-        });
-    },500);
-});
 
 export default basico;
